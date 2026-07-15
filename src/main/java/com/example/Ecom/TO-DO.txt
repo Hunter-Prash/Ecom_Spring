@@ -1,0 +1,122 @@
+Phase 2
+Inventory Module
+
+Instead of only
+
+Update Stock
+
+We'll implement
+
+Reserve Stock
+Release Stock
+Deduct Stock
+
+This introduces business rules.
+
+Phase 3
+Order Module
+
+This is the biggest one.
+
+Customer
+
+↓
+
+Order
+
+↓
+
+Order Items
+
+↓
+
+Inventory
+
+↓
+
+Stock deduction
+
+↓
+
+Order Status
+
+Here you'll learn
+
+OneToMany
+ManyToOne
+Transactions
+Rollbacks
+Multiple entity saves
+Phase 4
+
+Authentication
+
+Spring Security
+
+JWT
+
+Login
+
+Signup
+
+Roles
+
+Admin
+
+Customer
+
+Huge topic.
+
+Phase 5
+
+Redis
+
+You wanted this.
+
+GET Product
+
+↓
+
+Redis?
+
+↓
+
+Yes
+
+↓
+
+Return
+
+↓
+
+No
+
+↓
+
+Database
+
+↓
+
+Redis
+Phase 6
+
+Docker
+
+Containerize
+
+Spring Boot
+
+Postgres
+
+Redis
+Phase 7
+
+AWS
+
+Deploy
+
+EC2
+
+RDS
+
+Elastic Beanstalk
