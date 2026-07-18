@@ -1,18 +1,14 @@
 Phase 2
 Inventory Module
 
-Instead of only
-
-Update Stock
-
+Instead of only Update Stock
 We'll implement
-
 Reserve Stock
 Release Stock
 Deduct Stock
 
 This introduces business rules.
-
+---------------------------------------------------
 Phase 3
 Order Module
 
