@@ -28,5 +28,5 @@ public int age(){
 }
 *
 *
-*so when we usew this in our serveice we write request.name() and req.sku() */
+*so when we use this in our service we write request.name() and req.sku() */
 
