@@ -1,4 +1,4 @@
 package com.example.Ecom.DTOS;
 
-public record InventoryRequest(Integer quantity) {
+public record InventoryRequest(int quantity) {
 }
