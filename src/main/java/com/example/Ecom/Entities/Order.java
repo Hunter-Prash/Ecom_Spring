@@ -1,14 +1,17 @@
 package com.example.Ecom.Entities;
 
 import jakarta.persistence.*;
-import lombok.*;
-import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "orders")
+@Table(name="orders")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,29 +19,25 @@ import java.util.List;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "order_id")
+    private Long orderId;
 
-    // TRADITIONAL MAPPING: Many Orders -> One Customer
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;//customer object from customer table
+    @Column(name = "customer_name",nullable = false)
+    private String customerName;
 
-    @Column(name = "order_status", nullable = false, length = 30)
-    private String orderStatus = "PLACED";
+    @Column(name = "status",nullable = false)
+    private String status;
 
-    @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
-    private BigDecimal totalAmount = BigDecimal.ZERO;
+    @OneToMany(
+            mappedBy = "order",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<OrderItem> orderItems=new ArrayList<>();
 
-    @Column(name = "shipping_address", columnDefinition = "TEXT", nullable = false)
-    private String shippingAddress;
-
-    // TRADITIONAL MAPPING: One Order -> Many Order Items
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> orderItems = new ArrayList<>();
-
-    @Column(name = "created_at", insertable = false, updatable = false)
+    @Column(name = "created_at",insertable = false,updatable = false)
     private ZonedDateTime createdAt;
 
-    @Column(name = "updated_at", insertable = false, updatable = false)
+    @Column(name = "updated_at",insertable = false,updatable = false)
     private ZonedDateTime updatedAt;
 }
