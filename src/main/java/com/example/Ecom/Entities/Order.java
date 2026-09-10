@@ -28,8 +28,9 @@ public class Order {
     @Column(name = "status",nullable = false)
     private String status;
 
+
     @OneToMany(
-            mappedBy = "order",
+            mappedBy = "order",//The FK lives in OrderItem class, specifically in the variable called order..the owning side owns mapped by.
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )

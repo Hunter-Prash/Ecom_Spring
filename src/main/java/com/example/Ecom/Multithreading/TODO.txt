@@ -1,0 +1,37 @@
+Multithreading Hands-on — Level 1
+
+We'll build progressively:
+
+Creating threads
+Thread
+Runnable
+start() vs run()
+Thread coordination
+sleep()
+join()
+interrupt()
+Race conditions
+Shared counter
+See the bug happen
+Fix it with synchronized
+Locks
+synchronized
+ReentrantLock
+Thread communication
+wait()
+notify()
+Producer–Consumer
+Executor framework
+ExecutorService
+Fixed thread pool
+Callable + Future
+Modern concurrency
+CompletableFuture
+Concurrent collections
+AtomicInteger
+CountDownLatch
+Semaphore
+Real backend-style exercise
+Multiple threads processing incoming jobs
+Shared database-like resource
+Thread pool + synchronization + failure handling

@@ -43,76 +43,27 @@ ManyToOne
 Transactions
 Rollbacks
 Multiple entity saves
+
+
 Phase 4
-
 Authentication
-
 Spring Security
-
 JWT
-
 Login
-
 Signup
-
 Roles
-
 Admin
-
 Customer
 
 Huge topic.
-
-Phase 5
-
-Redis
-
-You wanted this.
-
-GET Product
-
-↓
-
-Redis?
-
-↓
-
-Yes
-
-↓
-
-Return
-
-↓
-
-No
-
-↓
-
-Database
-
-↓
-
-Redis
+*********************************************************************************
+***********************************************************************************
+******************************************************************************
 Phase 6
 
 Docker
-
 Containerize
-
 Spring Boot
-
 Postgres
 
-Redis
-Phase 7
 
-AWS
-
-Deploy
-
-EC2
-
-RDS
-
-Elastic Beanstalk

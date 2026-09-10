@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 
 @Entity
@@ -25,6 +26,9 @@ public class Product {
 
     @Column(nullable = false,length = 150)
     private String name;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderItem> orderItems;
 
     @Column(columnDefinition = "TEXT")
     private String description;
