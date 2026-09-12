@@ -78,5 +78,6 @@ public class OrderService {
             orderItemRepo.save(item);
 
         }
+        return new OrderResponse(order.getOrderId(), order.getCustomerName(),order.getStatus(),order.getOrderItems(),order.getCreatedAt());
     }
 }

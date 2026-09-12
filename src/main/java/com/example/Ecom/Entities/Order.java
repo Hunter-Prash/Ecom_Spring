@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Builder;
 
 @Entity
 @Table(name="orders")
@@ -16,6 +17,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

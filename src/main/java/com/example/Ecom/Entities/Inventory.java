@@ -1,9 +1,7 @@
 package com.example.Ecom.Entities;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.ZonedDateTime;
 
@@ -12,6 +10,8 @@ import java.time.ZonedDateTime;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Inventory {
     @Id
     @Column(name = "product_id")

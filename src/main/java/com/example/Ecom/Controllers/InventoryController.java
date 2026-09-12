@@ -11,17 +11,16 @@ public class InventoryController {
 
     private final InventoryService inventoryService;
 
-    public InventoryController(InventoryService inventoryService){
-        this.inventoryService=inventoryService;
+    public InventoryController(InventoryService inventoryService) {
+        this.inventoryService = inventoryService;
     }
 
     @PostMapping("/{id}/receiveStock")
-    public InventoryResponse receiveStock(@PathVariable Long id,@RequestBody InventoryRequest request){
-        try{
-            return inventoryService.receiveStock(id,request.quantity());
+    public InventoryResponse receiveStock(@PathVariable Long id, @RequestBody InventoryRequest request) {
+        try {
+            return inventoryService.receiveStock(id, request.quantity());
 
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println("Controller Layer:");
             System.out.println(ex.getMessage());
             return null;
@@ -29,12 +28,11 @@ public class InventoryController {
     }
 
     @PostMapping("/{id}/sell")
-    public InventoryResponse sellStock(@PathVariable Long id,@RequestBody InventoryRequest req){
-        try{
+    public InventoryResponse sellStock(@PathVariable Long id, @RequestBody InventoryRequest req) {
+        try {
             return inventoryService.sellStock(id, req.quantity());
 
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println("Controller Layer:");
             System.out.println(ex.getMessage());
             return null;
@@ -42,12 +40,11 @@ public class InventoryController {
     }
 
     @PatchMapping("/{id}/adjust")
-    public InventoryResponse adjustStock(@PathVariable Long id, @RequestBody InventoryRequest req){
-        try{
+    public InventoryResponse adjustStock(@PathVariable Long id, @RequestBody InventoryRequest req) {
+        try {
             return inventoryService.adjustStock(id, req.quantity());
 
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println("Controller Layer:");
             System.out.println(ex.getMessage());
             return null;

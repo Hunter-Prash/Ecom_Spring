@@ -1,5 +1,7 @@
 package com.example.Ecom.DTOS;
 
+import com.example.Ecom.Entities.OrderItem;
+
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -36,7 +38,7 @@ public record OrderResponse(
         Long orderId,
         String customerName,
         String status,
-        List<Item> items,
+        List<OrderItem> items,
         ZonedDateTime createdAt
 ) {
 
