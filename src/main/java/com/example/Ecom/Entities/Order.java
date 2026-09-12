@@ -36,6 +36,7 @@ public class Order {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @Builder.Default
     private List<OrderItem> orderItems=new ArrayList<>();
 
     @Column(name = "created_at",insertable = false,updatable = false)

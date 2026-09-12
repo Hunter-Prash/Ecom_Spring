@@ -76,6 +76,9 @@ public class OrderService {
                     .build();
 
             orderItemRepo.save(item);
+            
+            // Add the item to the order in memory so it appears in the JSON response
+            order.getOrderItems().add(item);
 
         }
         return new OrderResponse(order.getOrderId(), order.getCustomerName(),order.getStatus(),order.getOrderItems(),order.getCreatedAt());
