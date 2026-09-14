@@ -14,5 +14,5 @@ spring:
         dialect:org.hibernate.dialect.PostgreSQLDialect
 
 
-  jwt:
-    secret: 16543828673216358
+jwt:
+  secret: this-is-a-very-long-secret-key-for-jwt-256-bits
