@@ -90,6 +90,9 @@ public class SecurityConfig {
                                                 .requestMatchers("/auth/login", "/auth/createUser")
                                                 .permitAll()
 
+                                                //anything under /admin/ requires ADMIN role
+                                                .requestMatchers("/admin/**").hasRole("ADMIN")
+
                                                 // Everything else requires authorization
                                                 .anyRequest()
                                                 .authenticated())

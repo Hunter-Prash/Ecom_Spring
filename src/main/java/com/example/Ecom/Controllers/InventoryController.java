@@ -6,7 +6,7 @@ import com.example.Ecom.Services.InventoryService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/inventory")
+@RequestMapping("/admin/inventory")
 public class InventoryController {
 
     private final InventoryService inventoryService;
