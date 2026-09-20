@@ -44,8 +44,7 @@ public class UserService {
                 user.getUsername(),
                 user.getEmail(),
                 user.getRole(),
-                user.getCreatedAt()
-        );
+                user.getCreatedAt());
     }
 
     public LoginResponse login(LoginRequest req) {
@@ -53,24 +52,38 @@ public class UserService {
                 .username(req.username())
                 .password((req.password())).build();
 
-        User exisitnguser = userRepo.findByUsername(user.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        User exisitnguser = userRepo.findByUsername(user.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!passwordEncoder.matches(user.getPassword(), exisitnguser.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
 
-        //jwt validation
+        // jwt validation
         Instant now = Instant.now();
+        
+        // ==========================================
+        // EXPRESS.JS EQUIVALENT:
+        // const payload = {
+        //   sub: exisitnguser.username,
+        //   userId: exisitnguser.userId,
+        //   role: "ROLE_" + exisitnguser.role
+        // };
+        // const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h', issuer: 'ecom-backend' });
+        // ==========================================
+        
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("ecom-backend")                    // Who created this token?
-                .issuedAt(now)                             // When was it created?
-                .expiresAt(now.plusSeconds(3600))          // Expires in 1 hour (3600 sec)
-                .subject(exisitnguser.getUsername())       // The main identifying data (the user)
-                .claim("userId", exisitnguser.getUserId())     // Custom data you want frontend to have
+                .issuer("ecom-backend") // Who created this token?
+                .issuedAt(now) // When was it created?
+                .expiresAt(now.plusSeconds(3600)) // Expires in 1 hour (3600 sec)
+                .subject(exisitnguser.getUsername()) // The main identifying data (the user)
+                .claim("userId", exisitnguser.getUserId()) // Custom data you want frontend to have
+                .claim("role", "ROLE_" + exisitnguser.getRole()) // Stamping the Role!
                 .build();
 
         // 4. Stamp the Token
-        // We hand the claims to the Nimbus machine we built, and it signs it with the SecretKey
+        // We hand the claims to the Nimbus machine we built, and it signs it with the
+        // SecretKey
         String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
         return new LoginResponse(token);

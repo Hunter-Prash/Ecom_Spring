@@ -66,4 +66,25 @@ Containerize
 Spring Boot
 Postgres
 
-
+Concurrency TODO
+1. ExecutorService ⭐
+ Create an order-processing thread pool
+ Understand ExecutorService inside a Spring service
+ submit() / Callable
+ Graceful shutdown()
+ Process multiple backend jobs concurrently
+2. CompletableFuture ⭐
+ Run post-order tasks asynchronously
+ Chain tasks with thenApply / thenAccept
+ Handle async failures
+ Understand when async processing is actually useful
+3. Semaphore ⭐
+ Identify a resource that should have limited concurrency
+ Implement Semaphore
+ Allow only N concurrent workers
+ Understand why we'd limit concurrency
+4. CountDownLatch ⭐
+ Create concurrent order-processing test
+ Make multiple workers start together
+ Wait for all workers to finish
+ Use it to reproduce concurrency behavior/race scenarios
