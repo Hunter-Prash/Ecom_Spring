@@ -16,3 +16,9 @@ spring:
 
 jwt:
   secret: this-is-a-very-long-secret-key-for-jwt-256-bits
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

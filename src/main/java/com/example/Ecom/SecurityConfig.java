@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -19,6 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 // BEAN-FACTORY
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
         @Value("${jwt.secret}")
@@ -87,7 +89,7 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(auth -> auth
 
                                                 // Login and registration don't need a JWT
-                                                .requestMatchers("/auth/login", "/auth/createUser")
+                                                .requestMatchers("/auth/login", "/auth/createUser","/actuator/health","/actuator/info","/actuator/metrics/**","/actuator/**")
                                                 .permitAll()
 
                                                 //anything under /admin/ requires ADMIN role
@@ -109,7 +111,7 @@ public class SecurityConfig {
                                                 .jwtAuthenticationConverter(jwtAuthenticationConverter())
                                         ));
 
-                return http.build();
+                return http.build();//done configuring, now actually create the SecurityFilterChain object"
         }
 
 }
