@@ -1,6 +1,5 @@
 package com.example.Ecom.Services;
 
-
 import com.example.Ecom.DTOS.OrderRequest;
 import com.example.Ecom.DTOS.OrderResponse;
 import com.example.Ecom.Entities.Inventory;
@@ -17,70 +16,101 @@ import jakarta.transaction.Transactional;
 import lombok.Builder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
 
 @Service
 @Builder
 public class OrderService {
-    private final OrderRepo orderRepo;
-    private final InventoryRepo inventoryRepo;
-    private final OrderItemRepo orderItemRepo;
-    private final ProductRepo productRepo;
+        private final OrderRepo orderRepo;
+        private final InventoryRepo inventoryRepo;
+        private final OrderItemRepo orderItemRepo;
+        private final ProductRepo productRepo;
 
-    //DEPENDENCY INJECTION
-    public OrderService(OrderRepo orderRepo,InventoryRepo inventoryRepo,OrderItemRepo orderItemRepo, ProductRepo productRepo){
-        this.inventoryRepo=inventoryRepo;
-        this.orderRepo=orderRepo;
-        this.orderItemRepo=orderItemRepo;
-        this.productRepo=productRepo;
-    }
-
-    @Transactional
-    public OrderResponse createOrder(OrderRequest req){
-
-        if (req.productIds().size() != req.quantities().size()) {
-            throw new IllegalArgumentException(
-                    "Product IDs and quantities must have the same size"
-            );
+        // DEPENDENCY INJECTION
+        public OrderService(OrderRepo orderRepo, InventoryRepo inventoryRepo, OrderItemRepo orderItemRepo,
+                        ProductRepo productRepo) {
+                this.inventoryRepo = inventoryRepo;
+                this.orderRepo = orderRepo;
+                this.orderItemRepo = orderItemRepo;
+                this.productRepo = productRepo;
         }
-        Order order=Order.builder()
-                .customerName(req.customerName())
-                .status("PLACED")
-                .build();
 
-        orderRepo.save(order);
+        @Transactional
+        public OrderResponse createOrder(OrderRequest req) {
 
-        for(int i=0;i<req.productIds().size();i++){
-            Long productId=req.productIds().get(i);
-            Integer quantity=req.quantities().get(i);
+                if (req.productIds().size() != req.quantities().size()) {
+                        throw new IllegalArgumentException(
+                                        "Product IDs and quantities must have the same size");
+                }
+                Order order = Order.builder()
+                                .customerName(req.customerName())
+                                .status("PLACED")
+                                .build();
 
-           Product product= productRepo.findById(productId).orElseThrow(()-> new ResourceNotFoundException("Product not found"));
-           Inventory inventory=inventoryRepo.findById(productId).orElseThrow(()-> new ResourceNotFoundException("Inventory not found"));
+                orderRepo.save(order);
 
-            if (inventory.getStockQuantity() < quantity) {
-                throw new InsufficientStockException("Insufficient stock");
-            }
-            inventory.setStockQuantity(
-                    inventory.getStockQuantity() - quantity
-            );
+                for (int i = 0; i < req.productIds().size(); i++) {
+                        Long productId = req.productIds().get(i);
+                        Integer quantity = req.quantities().get(i);
 
-            inventoryRepo.save(inventory);
+                        Product product = productRepo.findById(productId)
+                                        .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+                        Inventory inventory = inventoryRepo.findById(productId)
+                                        .orElseThrow(() -> new ResourceNotFoundException("Inventory not found"));
 
-            //Create OrderItem
-            OrderItem item = OrderItem.builder()
-                    .order(order)
-                    .product(product)
-                    .quantity(quantity)
-                    .priceAtPurchase(product.getPrice())
-                    .build();
+                        if (inventory.getStockQuantity() < quantity) {
+                                throw new InsufficientStockException("Insufficient stock");
+                        }
+                        inventory.setStockQuantity(
+                                        inventory.getStockQuantity() - quantity);
 
-            orderItemRepo.save(item);
-            
-            // Add the item to the order in memory so it appears in the JSON response
-            order.getOrderItems().add(item);
+                        inventoryRepo.save(inventory);
+
+                        // Create OrderItem
+                        OrderItem item = OrderItem.builder()
+                                        .order(order)
+                                        .product(product)
+                                        .quantity(quantity)
+                                        .priceAtPurchase(product.getPrice())
+                                        .build();
+
+                        orderItemRepo.save(item);
+
+                        // Add the item to the order in memory so it appears in the JSON response
+                        order.getOrderItems().add(item);
+
+                }
+                return new OrderResponse(order.getOrderId(), order.getCustomerName(), order.getStatus(),
+                                order.getOrderItems(),
+                                order.getCreatedAt());
+        }
+
+        @Transactional
+        public OrderResponse getOrderById(Long orderId) {
+                Order o = orderRepo.findByOrderId(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
+
+                return new OrderResponse(o.getOrderId(), o.getCustomerName(), o.getStatus(), o.getOrderItems(),
+                                o.getCreatedAt());
 
         }
-        return new OrderResponse(order.getOrderId(), order.getCustomerName(),order.getStatus(),order.getOrderItems(),order.getCreatedAt());
-    }
+
+        @Transactional
+        public List<OrderResponse> getAllOrders() {
+                List<Order> order = orderRepo.findAll();
+                List<OrderResponse> res = new ArrayList<>();
+
+                for (Order o : order) {
+                        OrderResponse t = OrderResponse.builder()
+                                .orderId(o.getOrderId())
+                                .customerName(o.getCustomerName())
+                                .status(o.getStatus())
+                                .items(o.getOrderItems())
+                                .createdAt(o.getCreatedAt())
+                                .build();
+                        res.add(t);
+                }
+                return res;
+        }
 }

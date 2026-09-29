@@ -1,11 +1,11 @@
 package com.example.Ecom.DTOS;
 
 import com.example.Ecom.Entities.OrderItem;
+import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
-
 
 /*
 RESPONSE JSON:
@@ -34,17 +34,17 @@ RESPONSE JSON:
     "createdAt": "2026-09-11T00:30:00+05:30"
 }
 */
+@Builder
 public record OrderResponse(
         Long orderId,
         String customerName,
         String status,
         List<OrderItem> items,
-        ZonedDateTime createdAt
-) {
+        ZonedDateTime createdAt) {
 
     public record Item(
             Long productId,
             Integer quantity,
-            BigDecimal priceAtPurchase
-    ) {}
+            BigDecimal priceAtPurchase) {
+    }
 }
